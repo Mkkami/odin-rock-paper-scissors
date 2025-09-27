@@ -101,7 +101,6 @@ userChoices.forEach(element => {
         if (!e.target.locked) {
             e.target.style.backgroundColor = 'gray';
             e.target.setAttribute('selected', 'true');
-            console.log(e.target);
             lockControls();
             playGame();
             if (humanScore.innerText == 3 || computerScore.innerText == 3) {
@@ -147,6 +146,7 @@ function displayWinner() {
     } else {
         winner.innerText = `Winner: Computer!`;
     }   
+    winner.hidden = false;
 }
 
 resetButton.addEventListener('click', (e) => {
