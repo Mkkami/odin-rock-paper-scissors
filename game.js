@@ -98,7 +98,7 @@ function displayComputerChoice(choice) {
 
 userChoices.forEach(element => {
     element.addEventListener('click', (e) => {
-        if (!e.target.locked) {
+        if (e.target.getAttribute('locked') !== 'true') {
             e.target.style.backgroundColor = 'gray';
             e.target.setAttribute('selected', 'true');
             lockControls();
@@ -114,14 +114,14 @@ userChoices.forEach(element => {
 
 function lockControls() {
     userChoices.forEach(element => {
-        element.locked = true;
+        element.setAttribute('locked', 'true');
     })
 }
 
 async function resetControls(seconds) {
     await sleep(seconds*1000);
     userChoices.forEach(element => {
-        element.locked = false;
+        element.setAttribute('locked', 'false');
         element.setAttribute('selected', 'false');
         element.style.backgroundColor = 'white';
     })
@@ -146,7 +146,7 @@ function displayWinner() {
     } else {
         winner.innerText = `Winner: Computer!`;
     }   
-    winner.hidden = false;
+    winner.removeAttribute('hidden');
 }
 
 resetButton.addEventListener('click', (e) => {
