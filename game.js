@@ -107,7 +107,7 @@ userChoices.forEach(element => {
                 displayWinner();
                 return;
             }
-            resetControls(2);
+            resetControls(1);
         }
     })
 });
@@ -119,6 +119,7 @@ function lockControls() {
 }
 
 async function resetControls(seconds) {
+    resetButton.toggleAttribute('disabled');
     await sleep(seconds*1000);
     userChoices.forEach(element => {
         element.setAttribute('locked', 'false');
@@ -128,6 +129,7 @@ async function resetControls(seconds) {
     computerChoices.forEach(element => {
         element.style.backgroundColor = 'white';
     })
+    resetButton.toggleAttribute('disabled');
 }
 
 function resetScore() {
