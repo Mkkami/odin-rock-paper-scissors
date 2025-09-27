@@ -3,9 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Rock paper scissors</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="game.js" defer></script>
 </head>
 <body>
-    <script src="game.js"></script>
+    <header id="title">Rock Paper Scissors</header>
+    <div class="game-container">
+        <div class="game" id="user">
+            <p class="username user">Player</p>
+            <div class="user controls">
+                <img class="rock" src="images/rock_5767476.png" alt="rock">
+                <img class="paper" src="images/paper_2940388.png" alt="paper">
+                <img class="scissors" src="images/cut_12461809.png" alt="scissors">
+            </div>
+        </div>
+        <div class="score-container">
+            <div class="current-score">
+                <p id="user-score">0</p>
+                <p id="computer-score">0</p>
+            </div>
+            <div class="winner-container">
+                <p id="winner"></p>
+            </div>
+            <button class="button" id="reset">Play again</button>
+        </div>
+        <div class="game" id="computer">
+            <p class="username computer">Computer</p>
+            <div class="computer controls">
+                <img class="rock" src="images/rock_5767476.png" alt="rock">
+                <img class="paper" src="images/paper_2940388.png" alt="paper">
+                <img class="scissors" src="images/cut_12461809.png" alt="scissors">
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>

@@ -1,7 +1,19 @@
-console.log("Rock paper scissors.");
 
-let humanScore = 0;
-let computerScore = 0;
+let username = prompt("Enter your name");
+
+const nameDisplay = document.querySelector(".username.user")
+const humanScore = document.getElementById('user-score');
+const computerScore = document.getElementById('computer-score');
+const userChoices = Array.from(document.querySelectorAll(".user img"));
+const computerChoices = Array.from(document.querySelectorAll(".computer img"))
+const winner = document.getElementById('winner');
+const resetButton = document.getElementById('reset');
+
+if (username != null && username.trim() != "" ) {
+    nameDisplay.textContent = username;
+} else {
+    username = 'Player'
+}
 
 function getComputerChoice() {
     let randomGuess = Math.floor(Math.random() *3) +1;
@@ -21,7 +33,11 @@ function getComputerChoice() {
 }
 
 function getHumanChoice() {
-    return prompt("Rock paper scissors!").toLowerCase();
+    for (element of userChoices) {
+        if (element.getAttribute('selected')==='true') {
+            return element.className;
+        }
+    }
 }
 
 function playRound(humanChoice, computerChoice) {
@@ -49,26 +65,91 @@ function playRound(humanChoice, computerChoice) {
 }
 
 function playGame() {
-    let computerChoice;
-    let humanChoice;
-    let winner;
-    for (i = 0; i < 5; i++) {
-        computerChoice = getComputerChoice();
-        humanChoice = getHumanChoice();
-        winner = playRound(humanChoice, computerChoice);
-        if (winner == 'computer') {
-            computerScore++;
-        } else if (winner == 'human') {
-            humanScore++;
-        }
-        console.log(`Game ${i+1}: Computer - ${computerChoice}, Human - ${humanChoice}; winner: ${winner}`);
-    }
-    if (humanScore == computerScore) {
-        console.log("Draw!");
+    let computerChoice = getComputerChoice();
+    displayComputerChoice(computerChoice);
+    let humanChoice = getHumanChoice();
+    console.log(humanChoice + '; ' + computerChoice);
+    let winner = playRound(humanChoice, computerChoice);
+
+    if (winner === 'human') {
+        addScore(humanScore);
+    } else if (winner === 'computer') {
+        addScore(computerScore);
     } else {
-        console.log(`Winner: ${(humanScore > computerScore) ? 'You' : 'computer'}!`);
+        return;
     }
+
 }
 
-playGame();
+function addScore(score) {
+    let s = +score.innerText;
+    s++;
+    score.innerText = s;
+}
 
+function displayComputerChoice(choice) {
+    computerChoices.forEach(element => {
+        if (element.className == choice) {
+            element.style.backgroundColor = 'gray';
+            return;
+        }
+    });
+}
+
+userChoices.forEach(element => {
+    element.addEventListener('click', (e) => {
+        if (!e.target.locked) {
+            e.target.style.backgroundColor = 'gray';
+            e.target.setAttribute('selected', 'true');
+            console.log(e.target);
+            lockControls();
+            playGame();
+            if (humanScore.innerText == 3 || computerScore.innerText == 3) {
+                displayWinner();
+                return;
+            }
+            resetControls(2);
+        }
+    })
+});
+
+function lockControls() {
+    userChoices.forEach(element => {
+        element.locked = true;
+    })
+}
+
+async function resetControls(seconds) {
+    await sleep(seconds*1000);
+    userChoices.forEach(element => {
+        element.locked = false;
+        element.setAttribute('selected', 'false');
+        element.style.backgroundColor = 'white';
+    })
+    computerChoices.forEach(element => {
+        element.style.backgroundColor = 'white';
+    })
+}
+
+function resetScore() {
+    humanScore.innerText = '0';
+    computerScore.innerText = '0';
+    winner.hidden = true;
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function displayWinner() {
+    if (humanScore.innerText == 3) {
+        winner.innerText = `Winner: ${username}`;
+    } else {
+        winner.innerText = `Winner: Computer!`;
+    }   
+}
+
+resetButton.addEventListener('click', (e) => {
+    resetControls(0);
+    resetScore();
+})
